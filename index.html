@@ -3,648 +3,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz de Infinitivos Bilingüe - 48 Verbos Irregulares</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>InfinitiveMaster & Interview Practice</title>
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .correct-anim { animation: pulseGreen 0.4s ease-in-out; }
-    .wrong-anim { animation: shakeRed 0.4s ease-in-out; }
-    @keyframes pulseGreen {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+    :root {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-input: #0f172a;
+      --border-color: #334155;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
     }
-    @keyframes shakeRed {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
-    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+    header { background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 1rem; position: sticky; top: 0; z-index: 50; }
+    .header-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; items-center; flex-wrap: wrap; gap: 1rem; }
+    .logo { font-weight: 800; font-size: 1.25rem; color: #818cf8; }
+    
+    .nav-tabs { display: flex; gap: 0.5rem; background: var(--bg-main); padding: 0.25rem; border-radius: 0.75rem; border: 1px solid var(--border-color); }
+    .tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 0.5rem 1rem; font-weight: 600; font-size: 0.875rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { background: var(--accent); color: white; }
+
+    main { max-width: 900px; margin: 0 auto; width: 100%; padding: 1.5rem 1rem; flex-grow: 1; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
+
+    h1, h2, h3 { margin-bottom: 0.5rem; }
+    p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    
+    .btn { background-color: var(--accent); color: white; border: none; border-radius: 0.75rem; padding: 0.875rem 1.25rem; font-weight: 700; cursor: pointer; width: 100%; text-align: center; transition: background-color 0.2s, transform 0.1s; font-size: 1rem; }
+    .btn:hover { background-color: var(--accent-hover); }
+    .btn-secondary { background-color: var(--border-color); color: var(--text-main); }
+    .btn-secondary:hover { background-color: #475569; }
+
+    .rule-box { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #fcd34d; padding: 1rem; border-radius: 0.75rem; margin-bottom: 1.5rem; font-size: 0.9rem; }
+    
+    .qa-card { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+    .qa-card .q-title { color: #818cf8; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .qa-card .correct { color: var(--success); font-weight: 600; margin-top: 0.5rem; }
+    .qa-card .wrong { color: var(--error); font-size: 0.875rem; text-decoration: line-through; }
+    .qa-card .explanation { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; border-top: 1px dashed var(--border-color); padding-top: 0.5rem; }
+
+    input[type="text"] { width: 100%; background: var(--bg-input); border: 2px solid var(--border-color); color: white; padding: 0.875rem 1rem; border-radius: 0.75rem; font-size: 1rem; margin-top: 0.5rem; margin-bottom: 0.5rem; outline: none; }
+    input[type="text"]:focus { border-color: var(--accent); }
+
+    .feedback { padding: 1rem; border-radius: 0.75rem; margin-top: 1rem; font-weight: 600; display: none; }
+    .feedback.success { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--success); color: #6ee7b7; display: block; }
+    .feedback.error { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--error); color: #fca5a5; display: block; }
+
+    .hidden { display: none !important; }
+    footer { text-align: center; padding: 1rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-muted); }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+<body>
 
-  <!-- HEADER -->
-  <header class="bg-slate-800 border-b border-slate-700 shadow-md sticky top-0 z-50">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center space-x-3">
-        <div class="bg-indigo-600 text-white font-bold p-2.5 rounded-xl shadow-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-          </svg>
-        </div>
-        <div>
-          <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">InfinitiveMaster Bilingüe</h1>
-          <p class="text-xs text-slate-400">Test Exclusivo de Infinitivos (Español ⇄ Inglés)</p>
-        </div>
-      </div>
-
-      <!-- Live Counters -->
-      <div id="topStats" class="hidden items-center gap-3 text-xs md:text-sm bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-700">
-        <div><span class="text-slate-400">⏱️ Tiempo:</span> <span id="timeCounter" class="font-bold text-amber-400">00:00</span></div>
-        <div class="w-px h-4 bg-slate-700"></div>
-        <div><span class="text-slate-400">Aciertos:</span> <span id="correctCount" class="font-bold text-emerald-400">0</span></div>
-        <div class="w-px h-4 bg-slate-700"></div>
-        <div><span class="text-slate-400">Errores:</span> <span id="wrongCount" class="font-bold text-rose-400">0</span></div>
+  <header>
+    <div class="header-content">
+      <div class="logo">PrepEntrevista & Verbos</div>
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchView('interview')">🎤 Entrevista Mañana</button>
+        <button class="tab-btn" onclick="switchView('verbs')">⚡ Test Verbos Irregulares</button>
       </div>
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-grow flex flex-col justify-center">
-
-    <!-- SETUP CONFIGURATION CARD -->
-    <section id="setupSection" class="bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 shadow-xl">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">Configura tu Test de Infinitivos</h2>
-        <p class="text-slate-400">Practica la traducción y reconocimiento de infinitivos en ambas direcciones.</p>
+  <main>
+    <!-- VISTA 1: ENTREVISTA DE MAÑANA -->
+    <section id="interviewSection">
+      <div class="rule-box">
+        🚨 <strong>REGLA CRÍTICA PARA TU ENTREVISTA:</strong> Está estrictamente prohibido usar el verbo <strong>TO BE (am, is, are, was, were)</strong> y el verbo modal <strong>CAN / CAN'T</strong>. Usa siempre verbos de acción directos (<em>live, speak, study, play, enjoy, eat, watch</em>) y auxiliares directos (<em>do / don't</em>).
       </div>
 
-      <div class="space-y-6">
-        
-        <!-- 1. Direction Mode -->
-        <div>
-          <label class="block text-sm font-semibold text-slate-300 mb-3">1. Dirección de Traducción:</label>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <button onclick="selectDirection('es-en')" id="dir-es-en" class="dir-btn p-3.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-left transition-all">
-              <div class="text-base font-bold text-indigo-300">🇪🇸 Español ➔ 🇬🇧 Inglés</div>
-              <div class="text-xs text-slate-400 mt-0.5">Dado "Comer" ➔ Responde "Eat"</div>
-            </button>
+      <div class="card">
+        <h2>Guía de Repaso Rápido (5 Preguntas Clave)</h2>
+        <p>Aprende las estructuras correctas para responder mañana sin cometer errores:</p>
 
-            <button onclick="selectDirection('en-es')" id="dir-en-es" class="dir-btn p-3.5 rounded-xl border-2 border-slate-700 bg-slate-900/40 text-left transition-all">
-              <div class="text-base font-bold text-slate-200">🇬🇧 Inglés ➔ 🇪🇸 Español</div>
-              <div class="text-xs text-slate-400 mt-0.5">Dado "Eat" ➔ Responde "Comer"</div>
-            </button>
+        <div style="margin-top: 1rem;">
+          <!-- Pregunta 1 -->
+          <div class="qa-card">
+            <div class="q-title">1. "Tell me something true about yourself."</div>
+            <p><strong>Significado:</strong> Di algo verdadero sobre ti.</p>
+            <div class="correct">✅ "I live in Spain." / "I speak two languages."</div>
+            <div class="wrong">❌ "I am a student" (usa 'am') / "I can play soccer" (usa 'can')</div>
+            <div class="explanation">💡 <em>Tip: Usa verbos en presente directamente con 'I' (live, study, work, love).</em></div>
+          </div>
 
-            <button onclick="selectDirection('mixed')" id="dir-mixed" class="dir-btn p-3.5 rounded-xl border-2 border-slate-700 bg-slate-900/40 text-left transition-all">
-              <div class="text-base font-bold text-slate-200">🔀 Mixto (Combinado)</div>
-              <div class="text-xs text-slate-400 mt-0.5">Preguntas aleatorias ES➔EN y EN➔ES</div>
-            </button>
+          <!-- Pregunta 2 -->
+          <div class="qa-card">
+            <div class="q-title">2. "Tell me something true about your friend."</div>
+            <p><strong>Significado:</strong> Di algo verdadero sobre tu amigo/a.</p>
+            <div class="correct">✅ "My friend plays video games every day." / "She loves pop music."</div>
+            <div class="wrong">❌ "He is nice" (usa 'is') / "She can dance" (usa 'can')</div>
+            <div class="explanation">💡 <em>Tip: Añade '-s' o '-es' al verbo porque estás hablando de él o ella (plays, loves, lives).</em></div>
+          </div>
+
+          <!-- Pregunta 3 -->
+          <div class="qa-card">
+            <div class="q-title">3. "Tell me something you don’t do on Mondays."</div>
+            <p><strong>Significado:</strong> Di algo que no haces los lunes.</p>
+            <div class="correct">✅ "I don't eat pizza on Mondays." / "I don't watch movies on Mondays."</div>
+            <div class="wrong">❌ "I not eat pizza" / "I am not eating" (usa 'am')</div>
+            <div class="explanation">💡 <em>Tip: La estructura siempre es "I don't + verbo infinitivo".</em></div>
+          </div>
+
+          <!-- Pregunta 4 -->
+          <div class="qa-card">
+            <div class="q-title">4. "ask me how i design my class"</div>
+            <p><strong>Significado:</strong> Pídemelo como pregunta directa sobre mi clase.</p>
+            <div class="correct">✅ "How do you design your class?"</div>
+            <div class="wrong">❌ "How you design your class?" (Falta el auxiliar)</div>
+            <div class="explanation">💡 <em>Tip: Toda pregunta de información en presente simple necesita 'do': How + do + you + verbo.</em></div>
+          </div>
+
+          <!-- Pregunta 5 -->
+          <div class="qa-card">
+            <div class="q-title">5. "ask me spend a lot of money on shoes"</div>
+            <p><strong>Significado:</strong> Hazme una pregunta de sí/no sobre gastar dinero en zapatos.</p>
+            <div class="correct">✅ "Do you spend a lot of money on shoes?"</div>
+            <div class="wrong">❌ "You spend a lot of money on shoes?" (Falta el auxiliar al inicio)</div>
+            <div class="explanation">💡 <em>Tip: Las preguntas de Sí/No en presente siempre empiezan con 'Do': Do + you + verbo...</em></div>
           </div>
         </div>
+      </div>
 
-        <!-- 2. Input Mode -->
-        <div>
-          <label class="block text-sm font-semibold text-slate-300 mb-3">2. Modo de Respuesta:</label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button onclick="selectMode('type')" id="mode-type" class="mode-btn p-4 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-left transition-all flex flex-col justify-between">
-              <div>
-                <div class="text-lg font-bold text-indigo-300 mb-1">✍️ Escribir Respuesta</div>
-                <div class="text-xs text-slate-400">Escribe con el teclado. Incluye tolerancia a tildes, mayúsculas y sinónimos.</div>
-              </div>
-              <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400 mt-3 block">Máximo Aprendizaje</span>
-            </button>
+      <!-- SIMULADOR DE ENTREVISTA -->
+      <div class="card">
+        <h2>Simulador de Entrevista en Vivo</h2>
+        <p>Escribe tu respuesta a continuación. El sistema detectará automáticamente si cometes el error de usar <em>to be</em> o <em>can</em>.</p>
 
-            <button onclick="selectMode('multiple')" id="mode-multiple" class="mode-btn p-4 rounded-xl border-2 border-slate-700 bg-slate-900/40 text-left transition-all flex flex-col justify-between">
-              <div>
-                <div class="text-lg font-bold text-slate-200 mb-1">🎯 Opción Múltiple</div>
-                <div class="text-xs text-slate-400">Elige la opción correcta entre 4 alternativas generadas dinámicamente.</div>
-              </div>
-              <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 mt-3 block">Formato Agilizado</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 3. Question Count -->
-        <div>
-          <label class="block text-sm font-semibold text-slate-300 mb-3">3. Cantidad de Preguntas:</label>
-          <div class="flex flex-wrap gap-3">
-            <button onclick="selectCount(10)" class="count-btn px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-900/60 hover:bg-slate-700 text-sm font-medium transition-all">10 Preguntas</button>
-            <button onclick="selectCount(25)" class="count-btn px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-900/60 hover:bg-slate-700 text-sm font-medium transition-all">25 Preguntas</button>
-            <button onclick="selectCount(48)" class="count-btn active-count px-5 py-2.5 rounded-lg border-2 border-indigo-500 bg-indigo-600/20 text-indigo-300 font-semibold text-sm transition-all">Todos los 48 Verbos</button>
-          </div>
-        </div>
-
-        <!-- Start Button -->
-        <div class="pt-2">
-          <button onclick="startQuiz()" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 text-lg flex items-center justify-center gap-2">
-            <span>¡Iniciar Test de Infinitivos!</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-          </button>
+        <div style="margin-top: 1rem;">
+          <label style="font-weight: bold; color: #818cf8;" id="simQuestion">Pregunta 1 de 5: Tell me something true about yourself.</label>
+          <input type="text" id="simInput" placeholder="Escribe tu respuesta en inglés aquí..." autocomplete="off">
+          <button class="btn" onclick="checkSimAnswer()">Comprobar Respuesta</button>
+          <div id="simFeedback" class="feedback"></div>
         </div>
       </div>
     </section>
 
-    <!-- ACTIVE QUIZ SECTION -->
-    <section id="quizSection" class="hidden space-y-6">
-      
-      <!-- Progress Bar Card -->
-      <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-md">
-        <div class="flex justify-between items-center text-sm font-medium mb-2">
-          <span id="progressText" class="text-slate-300">Pregunta 1 de 48</span>
-          <span id="scoreText" class="text-indigo-400 font-bold">Puntuación: 0</span>
-        </div>
-        <div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden p-0.5 border border-slate-700">
-          <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
+    <!-- VISTA 2: TEST DE VERBOS -->
+    <section id="verbsSection" class="hidden">
+      <div class="card">
+        <h2>Test de Infinitivos (48 Verbos Irregulares)</h2>
+        <p>Practica traducir rápidamente los infinitivos de inglés a español y viceversa.</p>
 
-      <!-- Question Container -->
-      <div id="questionContainer" class="bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 shadow-xl relative min-h-[320px] flex flex-col justify-between">
-        <!-- Dynamic Content injected via JS -->
+        <div style="margin-top: 1.5rem; text-align: center;">
+          <span style="color: var(--text-muted); font-size: 0.875rem;" id="verbPromptLabel">Escribe el infinitivo en INGLÉS para:</span>
+          <h1 id="verbTarget" style="font-size: 2.5rem; color: #818cf8; margin: 0.5rem 0;">"Comer"</h1>
+          
+          <input type="text" id="verbInput" placeholder="Escribe en inglés..." autocomplete="off">
+          <button class="btn" onclick="checkVerbAnswer()">Comprobar Verbo</button>
+          
+          <div id="verbFeedback" class="feedback"></div>
+        </div>
       </div>
     </section>
-
-    <!-- FINAL RESULT REPORT SECTION -->
-    <section id="resultSection" class="hidden bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 shadow-xl text-center">
-      <div class="inline-flex p-4 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 mb-3">
-        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-      </div>
-      <h2 class="text-3xl font-extrabold text-white mb-1">¡Test Finalizado!</h2>
-      <p class="text-slate-400 mb-6 text-sm">Resumen completo de tu desempeño en infinitivos:</p>
-
-      <!-- Stats Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
-          <div class="text-xs text-slate-400 mb-1">Precisión</div>
-          <div id="resAccuracy" class="text-2xl font-bold text-indigo-400">0%</div>
-        </div>
-        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
-          <div class="text-xs text-slate-400 mb-1">Aciertos</div>
-          <div id="resCorrect" class="text-2xl font-bold text-emerald-400">0</div>
-        </div>
-        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
-          <div class="text-xs text-slate-400 mb-1">Errores</div>
-          <div id="resWrong" class="text-2xl font-bold text-rose-400">0</div>
-        </div>
-        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
-          <div class="text-xs text-slate-400 mb-1">Tiempo Total</div>
-          <div id="resTime" class="text-2xl font-bold text-amber-400">00:00</div>
-        </div>
-      </div>
-
-      <!-- Full Answer Breakdown -->
-      <div class="text-left mb-8">
-        <h3 class="text-lg font-bold text-slate-200 mb-3">Reporte de Respuestas:</h3>
-        <div class="max-h-64 overflow-y-auto pr-2 space-y-2" id="reviewList">
-          <!-- Items injected dynamically -->
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4">
-        <button id="retryWrongBtn" onclick="retryFailedOnly()" class="hidden flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md">
-          ⚠️ Repetir Solo Falladas (<span id="failedCountBadge">0</span>)
-        </button>
-        <button onclick="restartQuiz()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md">
-          Repetir Mismo Test 🔄
-        </button>
-        <button onclick="goHome()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-3.5 px-6 rounded-xl transition-all">
-          Cambiar Configuración ⚙️
-        </button>
-      </div>
-    </section>
-
   </main>
 
-  <footer class="bg-slate-800/50 border-t border-slate-800 text-center py-4 text-xs text-slate-500">
-    InfinitiveMaster &copy; Test Interactivo de Infinitivos (48 Verbos Irregulares).
+  <footer>
+    InfinitiveMaster & Interview Prep &copy; Creado para práctica intensiva.
   </footer>
 
   <script>
-    // Base de datos de los 48 verbos solicitados con múltiples variaciones de español reconocidas
-    const VERBS_DATABASE = [
-      { id: 1, english: 'be', spanishPrimary: 'ser / estar', spanishValid: ['ser', 'estar', 'ser / estar', 'ser o estar', 'ser/estar'] },
-      { id: 2, english: 'become', spanishPrimary: 'llegar a ser / convertirse', spanishValid: ['llegar a ser', 'convertirse', 'hacerse', 'llegar a ser / convertirse', 'llegar a ser/convertirse'] },
-      { id: 3, english: 'begin', spanishPrimary: 'empezar / comenzar', spanishValid: ['empezar', 'comenzar', 'iniciar', 'empezar / comenzar', 'empezar/comenzar'] },
-      { id: 4, english: 'bring', spanishPrimary: 'traer', spanishValid: ['traer', 'llevar consigo'] },
-      { id: 5, english: 'build', spanishPrimary: 'construir', spanishValid: ['construir', 'edificar'] },
-      { id: 6, english: 'buy', spanishPrimary: 'comprar', spanishValid: ['comprar'] },
-      { id: 7, english: 'catch', spanishPrimary: 'atrapar / coger', spanishValid: ['atrapar', 'coger', 'capturar', 'atrapar / coger', 'atrapar/coger'] },
-      { id: 8, english: 'choose', spanishPrimary: 'elegir / escoger', spanishValid: ['elegir', 'escoger', 'elegir / escoger', 'elegir/escoger'] },
-      { id: 9, english: 'come', spanishPrimary: 'venir', spanishValid: ['venir'] },
-      { id: 10, english: 'cost', spanishPrimary: 'costar', spanishValid: ['costar'] },
-      { id: 11, english: 'do', spanishPrimary: 'hacer', spanishValid: ['hacer'] },
-      { id: 12, english: 'drink', spanishPrimary: 'beber / tomar', spanishValid: ['beber', 'tomar', 'beber / tomar', 'beber/tomar'] },
-      { id: 13, english: 'drive', spanishPrimary: 'conducir / manejar', spanishValid: ['conducir', 'manejar', 'conducir / manejar', 'conducir/manejar'] },
-      { id: 14, english: 'eat', spanishPrimary: 'comer', spanishValid: ['comer'] },
-      { id: 15, english: 'fall', spanishPrimary: 'caer', spanishValid: ['caer', 'caerse'] },
-      { id: 16, english: 'feed', spanishPrimary: 'alimentar', spanishValid: ['alimentar', 'dar de comer'] },
-      { id: 17, english: 'find', spanishPrimary: 'encontrar', spanishValid: ['encontrar', 'hallar'] },
-      { id: 18, english: 'fly', spanishPrimary: 'volar', spanishValid: ['volar'] },
-      { id: 19, english: 'get', spanishPrimary: 'conseguir / obtener', spanishValid: ['conseguir', 'obtener', 'recibir', 'conseguir / obtener', 'conseguir/obtener'] },
-      { id: 20, english: 'give', spanishPrimary: 'dar', spanishValid: ['dar', 'entregar'] },
-      { id: 21, english: 'go', spanishPrimary: 'ir', spanishValid: ['ir'] },
-      { id: 22, english: 'have', spanishPrimary: 'tener / haber', spanishValid: ['tener', 'haber', 'tener / haber', 'tener/haber'] },
-      { id: 23, english: 'hear', spanishPrimary: 'oír / escuchar', spanishValid: ['oir', 'oír', 'escuchar', 'oír / escuchar', 'oir/escuchar'] },
-      { id: 24, english: 'keep', spanishPrimary: 'guardar / mantener', spanishValid: ['guardar', 'mantener', 'conservar', 'guardar / mantener', 'guardar/mantener'] },
-      { id: 25, english: 'leave', spanishPrimary: 'dejar / salir', spanishValid: ['dejar', 'salir', 'marcharse', 'dejar / salir', 'dejar/salir'] },
-      { id: 26, english: 'lend', spanishPrimary: 'prestar', spanishValid: ['prestar'] },
-      { id: 27, english: 'lose', spanishPrimary: 'perder', spanishValid: ['perder'] },
-      { id: 28, english: 'make', spanishPrimary: 'hacer / fabricar', spanishValid: ['hacer', 'fabricar', 'crear', 'hacer / fabricar', 'hacer/fabricar'] },
-      { id: 29, english: 'meet', spanishPrimary: 'conocer / reunirse', spanishValid: ['conocer', 'reunirse', 'encontrarse', 'conocer / reunirse', 'conocer/reunirse'] },
-      { id: 30, english: 'know', spanishPrimary: 'saber / conocer', spanishValid: ['saber', 'conocer', 'saber / conocer', 'saber/conocer'] },
-      { id: 31, english: 'put', spanishPrimary: 'poner / colocar', spanishValid: ['poner', 'colocar', 'poner / colocar', 'poner/colocar'] },
-      { id: 32, english: 'read', spanishPrimary: 'leer', spanishValid: ['leer'] },
-      { id: 33, english: 'run', spanishPrimary: 'correr', spanishValid: ['correr'] },
-      { id: 34, english: 'say', spanishPrimary: 'decir', spanishValid: ['decir'] },
-      { id: 35, english: 'see', spanishPrimary: 'ver', spanishValid: ['ver'] },
-      { id: 36, english: 'sell', spanishPrimary: 'vender', spanishValid: ['vender'] },
-      { id: 37, english: 'send', spanishPrimary: 'enviar / mandar', spanishValid: ['enviar', 'mandar', 'enviar / mandar', 'enviar/mandar'] },
-      { id: 38, english: 'shoot', spanishPrimary: 'disparar', spanishValid: ['disparar', 'tirar'] },
-      { id: 39, english: 'sleep', spanishPrimary: 'dormir', spanishValid: ['dormir'] },
-      { id: 40, english: 'speak', spanishPrimary: 'hablar', spanishValid: ['hablar'] },
-      { id: 41, english: 'spell', spanishPrimary: 'deletrear', spanishValid: ['deletrear'] },
-      { id: 42, english: 'spend', spanishPrimary: 'gastar / pasar tiempo', spanishValid: ['gastar', 'pasar tiempo', 'pasar', 'gastar / pasar tiempo', 'gastar/pasar'] },
-      { id: 43, english: 'take', spanishPrimary: 'tomar / llevar', spanishValid: ['tomar', 'llevar', 'tomar / llevar', 'tomar/llevar'] },
-      { id: 44, english: 'tell', spanishPrimary: 'contar / decir', spanishValid: ['contar', 'decir', 'relatar', 'contar / decir', 'contar/decir'] },
-      { id: 45, english: 'think', spanishPrimary: 'pensar', spanishValid: ['pensar', 'creer'] },
-      { id: 46, english: 'understand', spanishPrimary: 'entender / comprender', spanishValid: ['entender', 'comprender', 'entender / comprender', 'entender/comprender'] },
-      { id: 47, english: 'wear', spanishPrimary: 'llevar puesto / vestir', spanishValid: ['llevar puesto', 'vestir', 'usar ropa', 'llevar puesto / vestir', 'llevar puesto/vestir'] },
-      { id: 48, english: 'win', spanishPrimary: 'ganar', spanishValid: ['ganar'] },
-      { id: 49, english: 'write', spanishPrimary: 'escribir', spanishValid: ['escribir'] }
+    // --- LÓGICA NAVEGACIÓN ---
+    function switchView(view) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      if (view === 'interview') {
+        document.getElementById('interviewSection').classList.remove('hidden');
+        document.getElementById('verbsSection').classList.add('hidden');
+        event.target.classList.add('active');
+      } else {
+        document.getElementById('interviewSection').classList.add('hidden');
+        document.getElementById('verbsSection').classList.remove('hidden');
+        event.target.classList.add('active');
+      }
+    }
+
+    // --- LÓGICA SIMULADOR ENTREVISTA ---
+    const simQuestions = [
+      { q: "1. Tell me something true about yourself.", prompt: "Di algo sobre ti sin usar 'am/is/are' ni 'can':", forbidden: ["am", "is", "are", "was", "were", "be", "can", "cant", "can't"] },
+      { q: "2. Tell me something true about your friend.", prompt: "Di algo sobre tu amigo/a (recuerda agregar -s al verbo) sin 'is/are/can':", forbidden: ["am", "is", "are", "was", "were", "be", "can", "cant", "can't"] },
+      { q: "3. Tell me something you don’t do on Mondays.", prompt: "Di algo que NO haces los lunes (Usa 'I don't + verbo'):", forbidden: ["am", "is", "are", "was", "were", "be", "can", "cant", "can't"] },
+      { q: "4. ask me how i design my class", prompt: "Hazme la pregunta completa (Recuerda incluir 'do'):", forbidden: ["am", "is", "are", "was", "were", "be", "can", "cant", "can't"] },
+      { q: "5. ask me spend a lot of money on shoes", prompt: "Hazme la pregunta de Sí/No (Empieza con 'Do'):", forbidden: ["am", "is", "are", "was", "were", "be", "can", "cant", "can't"] }
     ];
 
-    // State Variables
-    let selectedDirection = 'es-en'; // 'es-en' | 'en-es' | 'mixed'
-    let selectedMode = 'type'; // 'type' | 'multiple'
-    let selectedCount = 48;
-    let quizQuestions = [];
-    let currentIndex = 0;
-    let score = 0;
-    let correctAnswersCount = 0;
-    let wrongAnswersCount = 0;
-    let userResults = [];
-    let failedQuestionsList = [];
+    let currentSimIndex = 0;
 
-    // Timer Variables
-    let timerInterval = null;
-    let secondsElapsed = 0;
+    function checkSimAnswer() {
+      const input = document.getElementById('simInput').value.trim();
+      const feedback = document.getElementById('simFeedback');
+      const currentQ = simQuestions[currentSimIndex];
 
-    function selectDirection(dir) {
-      selectedDirection = dir;
-      document.querySelectorAll('.dir-btn').forEach(btn => {
-        btn.classList.remove('border-indigo-500', 'bg-indigo-500/10');
-        btn.classList.add('border-slate-700', 'bg-slate-900/40');
-      });
-      const activeBtn = document.getElementById(`dir-${dir}`);
-      activeBtn.classList.remove('border-slate-700', 'bg-slate-900/40');
-      activeBtn.classList.add('border-indigo-500', 'bg-indigo-500/10');
-    }
+      if (!input) {
+        feedback.className = "feedback error";
+        feedback.innerHTML = "Por favor escribe una respuesta antes de comprobar.";
+        return;
+      }
 
-    function selectMode(mode) {
-      selectedMode = mode;
-      document.querySelectorAll('.mode-btn').forEach(btn => {
-        btn.classList.remove('border-indigo-500', 'bg-indigo-500/10');
-        btn.classList.add('border-slate-700', 'bg-slate-900/40');
-      });
-      const activeBtn = document.getElementById(`mode-${mode}`);
-      activeBtn.classList.remove('border-slate-700', 'bg-slate-900/40');
-      activeBtn.classList.add('border-indigo-500', 'bg-indigo-500/10');
-    }
+      const lowerInput = input.toLowerCase();
+      const usedForbidden = currentQ.forbidden.find(word => new RegExp(`\\b${word}\\b`, 'i').test(lowerInput));
 
-    function selectCount(count) {
-      selectedCount = count;
-      document.querySelectorAll('.count-btn').forEach(btn => {
-        btn.classList.remove('border-2', 'border-indigo-500', 'bg-indigo-600/20', 'text-indigo-300', 'font-semibold');
-        btn.classList.add('border', 'border-slate-700', 'bg-slate-900/60');
-      });
-      event.currentTarget.classList.remove('border', 'border-slate-700', 'bg-slate-900/60');
-      event.currentTarget.classList.add('border-2', 'border-indigo-500', 'bg-indigo-600/20', 'text-indigo-300', 'font-semibold');
-    }
+      if (usedForbidden) {
+        feedback.className = "feedback error";
+        feedback.innerHTML = `⚠️ <strong>¡Cuidado!</strong> Has usado la palabra prohibida: <strong>"${usedForbidden}"</strong>.<br>Recuerda que no puedes usar el verbo 'to be' ni 'can'. Vuelve a intentarlo.`;
+        return;
+      }
 
-    // Timer Functions
-    function startTimer() {
-      clearInterval(timerInterval);
-      secondsElapsed = 0;
-      updateTimerDisplay();
-      timerInterval = setInterval(() => {
-        secondsElapsed++;
-        updateTimerDisplay();
-      }, 1000);
-    }
+      // Validaciones específicas
+      let isStructureValid = true;
+      let msg = "¡Excelente respuesta! Cumple con todas las reglas gramaticales y restricciones.";
 
-    function stopTimer() {
-      clearInterval(timerInterval);
-    }
+      if (currentSimIndex === 3 && !lowerInput.includes("how do you")) {
+        isStructureValid = false;
+        msg = "Recuerda que para la pregunta 4 la estructura debe ser: 'How do you design your class?'";
+      } else if (currentSimIndex === 4 && !lowerInput.startsWith("do you")) {
+        isStructureValid = false;
+        msg = "Recuerda que para la pregunta 5 debes iniciar con 'Do you...?'";
+      } else if (currentSimIndex === 2 && !lowerInput.includes("don't") && !lowerInput.includes("dont")) {
+        isStructureValid = false;
+        msg = "Recuerda usar la estructura 'I don't...' para responder a esta pregunta.";
+      }
 
-    function updateTimerDisplay() {
-      const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-      const secs = (secondsElapsed % 60).toString().padStart(2, '0');
-      document.getElementById('timeCounter').textContent = `${mins}:${secs}`;
-    }
-
-    function normalizeString(str) {
-      return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // Remueve tildes
-        .trim();
-    }
-
-    function prepareQuestions(verbList) {
-      return verbList.map(verb => {
-        let questionDir = selectedDirection;
-        if (selectedDirection === 'mixed') {
-          questionDir = Math.random() > 0.5 ? 'es-en' : 'en-es';
-        }
-        return {
-          verb: verb,
-          direction: questionDir
-        };
-      });
-    }
-
-    function startQuiz() {
-      let shuffledVerbs = [...VERBS_DATABASE].sort(() => 0.5 - Math.random());
-      let selectedVerbs = shuffledVerbs.slice(0, selectedCount);
-      
-      quizQuestions = prepareQuestions(selectedVerbs);
-      initQuizState();
-    }
-
-    function retryFailedOnly() {
-      if (failedQuestionsList.length === 0) return;
-      quizQuestions = prepareQuestions(failedQuestionsList);
-      document.getElementById('resultSection').classList.add('hidden');
-      initQuizState();
-    }
-
-    function initQuizState() {
-      currentIndex = 0;
-      score = 0;
-      correctAnswersCount = 0;
-      wrongAnswersCount = 0;
-      userResults = [];
-      failedQuestionsList = [];
-
-      document.getElementById('setupSection').classList.add('hidden');
-      document.getElementById('quizSection').classList.remove('hidden');
-      document.getElementById('topStats').classList.remove('hidden');
-      document.getElementById('topStats').classList.add('flex');
-
-      startTimer();
-      renderQuestion();
-    }
-
-    function updateHeaderStats() {
-      document.getElementById('correctCount').textContent = correctAnswersCount;
-      document.getElementById('wrongCount').textContent = wrongAnswersCount;
-      document.getElementById('progressText').textContent = `Pregunta ${currentIndex + 1} de ${quizQuestions.length}`;
-      document.getElementById('scoreText').textContent = `Puntuación: ${score}`;
-      
-      const pct = (currentIndex / quizQuestions.length) * 100;
-      document.getElementById('progressBar').style.width = `${pct}%`;
-    }
-
-    function renderQuestion() {
-      const q = quizQuestions[currentIndex];
-      const verb = q.verb;
-      const isEsToEn = q.direction === 'es-en';
-      const container = document.getElementById('questionContainer');
-      updateHeaderStats();
-
-      const directionBadge = isEsToEn ? 
-        `<span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">🇪🇸 Español ➔ 🇬🇧 Inglés</span>` :
-        `<span class="text-xs font-bold uppercase tracking-wider text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">🇬🇧 Inglés ➔ 🇪🇸 Español</span>`;
-
-      const promptTitle = isEsToEn ? 
-        `Escribe/Elige el infinitivo en INGLÉS para:` : 
-        `Escribe/Elige el infinitivo en ESPAÑOL para:`;
-
-      const promptTarget = isEsToEn ? verb.spanishPrimary : verb.english;
-
-      if (selectedMode === 'type') {
-        container.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              ${directionBadge}
-              <span class="text-xs text-slate-400">Modo: Escribir</span>
-            </div>
-
-            <div class="text-center py-6 mb-4">
-              <span class="text-slate-400 text-sm block mb-1">${promptTitle}</span>
-              <span class="text-3xl md:text-4xl font-extrabold text-white tracking-wide bg-gradient-to-r from-amber-200 via-indigo-200 to-purple-200 bg-clip-text text-transparent">"${promptTarget}"</span>
-            </div>
-
-            <form onsubmit="checkTypeAnswer(event)" class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Tu respuesta:</label>
-                <input type="text" id="typeInput" autocomplete="off" placeholder="${isEsToEn ? 'Ej: eat' : 'Ej: comer'}" class="w-full bg-slate-900 border-2 border-slate-700 rounded-xl px-4 py-3.5 text-white font-semibold text-lg placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors">
-              </div>
-
-              <div id="feedbackArea" class="hidden rounded-xl p-4 text-sm font-medium"></div>
-
-              <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg">
-                Comprobar Respuesta
-              </button>
-            </form>
-          </div>
-        `;
+      if (isStructureValid) {
+        feedback.className = "feedback success";
+        feedback.innerHTML = `✅ ${msg}`;
         setTimeout(() => {
-          const inp = document.getElementById('typeInput');
-          if (inp) inp.focus();
-        }, 50);
-
-      } else if (selectedMode === 'multiple') {
-        const options = generateMultipleChoiceOptions(q);
-
-        container.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              ${directionBadge}
-              <span class="text-xs text-slate-400">Modo: Opción Múltiple</span>
-            </div>
-
-            <div class="text-center py-4 mb-6">
-              <span class="text-slate-400 text-sm block mb-1">${promptTitle}</span>
-              <span class="text-3xl md:text-4xl font-extrabold text-white tracking-wide bg-gradient-to-r from-amber-200 via-indigo-200 to-purple-200 bg-clip-text text-transparent">"${promptTarget}"</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-              ${options.map((opt) => `
-                <button onclick="checkMultipleChoice('${opt.value.replace(/'/g, "\\'")}', this)" class="opt-btn bg-slate-900 hover:bg-slate-700 border border-slate-700 p-4 rounded-xl text-left transition-all">
-                  <div class="text-lg font-bold text-slate-100">${opt.label}</div>
-                </button>
-              `).join('')}
-            </div>
-
-            <div id="feedbackArea" class="hidden rounded-xl p-4 text-sm font-medium mt-4"></div>
-          </div>
-        `;
-      }
-    }
-
-    function checkTypeAnswer(e) {
-      e.preventDefault();
-      const inputEl = document.getElementById('typeInput');
-      const userInput = inputEl.value;
-      const q = quizQuestions[currentIndex];
-      const verb = q.verb;
-      const isEsToEn = q.direction === 'es-en';
-
-      let isCorrect = false;
-
-      if (isEsToEn) {
-        // Checking English infinitive
-        isCorrect = normalizeString(userInput) === normalizeString(verb.english);
+          currentSimIndex = (currentSimIndex + 1) % simQuestions.length;
+          document.getElementById('simQuestion').textContent = simQuestions[currentSimIndex].q;
+          document.getElementById('simInput').value = "";
+          feedback.style.display = "none";
+        }, 2500);
       } else {
-        // Checking Spanish infinitive flexible matches
-        const normUser = normalizeString(userInput);
-        isCorrect = verb.spanishValid.some(validOpt => normalizeString(validOpt) === normUser);
+        feedback.className = "feedback error";
+        feedback.innerHTML = `❌ ${msg}`;
       }
-
-      const expectedText = isEsToEn ? verb.english : verb.spanishPrimary;
-
-      showFeedback(isCorrect, `
-        ${isCorrect ? '🎉 ¡Excelente y Correcto!' : '❌ Respuesta Incorrecta.'} <br>
-        <strong>Respuesta Correcta:</strong> <span class="underline font-bold">${expectedText}</span> 
-        <span class="text-xs text-slate-400 block mt-1">(Original: <strong>${verb.english}</strong> = <strong>${verb.spanishPrimary}</strong>)</span>
-      `);
-
-      recordResult(q, isCorrect, userInput, expectedText);
     }
 
-    function checkMultipleChoice(selectedVal, btnEl) {
-      const q = quizQuestions[currentIndex];
-      const verb = q.verb;
-      const isEsToEn = q.direction === 'es-en';
+    // --- LÓGICA VERBOS IRREGULARES ---
+    const verbsList = [
+      { en: "be", es: "ser / estar" }, { en: "become", es: "llegar a ser" }, { en: "begin", es: "empezar" },
+      { en: "bring", es: "traer" }, { en: "build", es: "construir" }, { en: "buy", es: "comprar" },
+      { en: "catch", es: "atrapar" }, { en: "choose", es: "elegir" }, { en: "come", es: "venir" },
+      { en: "cost", es: "costar" }, { en: "do", es: "hacer" }, { en: "drink", es: "beber" },
+      { en: "drive", es: "conducir" }, { en: "eat", es: "comer" }, { en: "fall", es: "caer" },
+      { en: "feed", es: "alimentar" }, { en: "find", es: "encontrar" }, { en: "fly", es: "volar" },
+      { en: "get", es: "conseguir" }, { en: "give", es: "dar" }, { en: "go", es: "ir" },
+      { en: "have", es: "tener" }, { en: "hear", es: "oír" }, { en: "keep", es: "guardar" },
+      { en: "leave", es: "dejar / salir" }, { en: "lend", es: "prestar" }, { en: "lose", es: "perder" },
+      { en: "make", es: "hacer" }, { en: "meet", es: "conocer" }, { en: "know", es: "saber" },
+      { en: "put", es: "poner" }, { en: "read", es: "leer" }, { en: "run", es: "correr" },
+      { en: "say", es: "decir" }, { en: "see", es: "ver" }, { en: "sell", es: "vender" },
+      { en: "send", es: "enviar" }, { en: "shoot", es: "disparar" }, { en: "sleep", es: "dormir" },
+      { en: "speak", es: "hablar" }, { en: "spell", es: "deletrear" }, { en: "spend", es: "gastar" },
+      { en: "take", es: "tomar" }, { en: "tell", es: "contar / decir" }, { en: "think", es: "pensar" },
+      { en: "understand", es: "entender" }, { en: "wear", es: "llevar puesto" }, { en: "win", es: "ganar" },
+      { en: "write", es: "escribir" }
+    ];
 
-      let isCorrect = false;
+    let currentVerbIndex = 0;
 
-      if (isEsToEn) {
-        isCorrect = (selectedVal === verb.english);
+    function checkVerbAnswer() {
+      const input = document.getElementById('verbInput').value.trim().toLowerCase();
+      const target = verbsList[currentVerbIndex];
+      const feedback = document.getElementById('verbFeedback');
+
+      if (input === target.en.toLowerCase()) {
+        feedback.className = "feedback success";
+        feedback.innerHTML = `🎉 ¡Correcto! <strong>${target.en}</strong> significa <em>"${target.es}"</em>.`;
+        setTimeout(() => {
+          currentVerbIndex = Math.floor(Math.random() * verbsList.length);
+          document.getElementById('verbTarget').textContent = `"${verbsList[currentVerbIndex].es}"`;
+          document.getElementById('verbInput').value = "";
+          feedback.style.display = "none";
+        }, 1500);
       } else {
-        isCorrect = (selectedVal === verb.spanishPrimary);
+        feedback.className = "feedback error";
+        feedback.innerHTML = `❌ Incorrecto. La respuesta correcta para "${target.es}" es <strong>${target.en}</strong>.`;
       }
-
-      document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-
-      if (isCorrect) {
-        btnEl.classList.add('bg-emerald-600/30', 'border-emerald-500', 'text-emerald-300');
-      } else {
-        btnEl.classList.add('bg-rose-600/30', 'border-rose-500', 'text-rose-300');
-      }
-
-      const expectedText = isEsToEn ? verb.english : verb.spanishPrimary;
-
-      showFeedback(isCorrect, `
-        ${isCorrect ? '🎉 ¡Correcto!' : '❌ Incorrecto.'} <br>
-        <strong>Respuesta Correcta:</strong> <span class="underline font-bold">${expectedText}</span>
-      `);
-
-      recordResult(q, isCorrect, selectedVal, expectedText);
-    }
-
-    function showFeedback(isCorrect, htmlContent) {
-      const feedback = document.getElementById('feedbackArea');
-      const container = document.getElementById('questionContainer');
-
-      feedback.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500/30', 'bg-rose-500/20', 'text-rose-300', 'border-rose-500/30');
-      
-      if (isCorrect) {
-        feedback.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border', 'border-emerald-500/30');
-        container.classList.add('correct-anim');
-        score += 10;
-        correctAnswersCount++;
-      } else {
-        feedback.classList.add('bg-rose-500/20', 'text-rose-300', 'border', 'border-rose-500/30');
-        container.classList.add('wrong-anim');
-        wrongAnswersCount++;
-      }
-
-      feedback.innerHTML = htmlContent;
-
-      setTimeout(() => {
-        container.classList.remove('correct-anim', 'wrong-anim');
-        currentIndex++;
-        if (currentIndex < quizQuestions.length) {
-          renderQuestion();
-        } else {
-          finishQuiz();
-        }
-      }, 1600);
-    }
-
-    function recordResult(q, isCorrect, userAns, expectedText) {
-      userResults.push({
-        prompt: q.direction === 'es-en' ? `🇪🇸 ${q.verb.spanishPrimary}` : `🇬🇧 ${q.verb.english}`,
-        expected: expectedText,
-        userAnswer: userAns,
-        isCorrect: isCorrect
-      });
-
-      if (!isCorrect) {
-        failedQuestionsList.push(q.verb);
-      }
-    }
-
-    function generateMultipleChoiceOptions(q) {
-      const isEsToEn = q.direction === 'es-en';
-      const targetVerb = q.verb;
-
-      const options = [{
-        value: isEsToEn ? targetVerb.english : targetVerb.spanishPrimary,
-        label: isEsToEn ? targetVerb.english : targetVerb.spanishPrimary
-      }];
-
-      while (options.length < 4) {
-        const randomVerb = VERBS_DATABASE[Math.floor(Math.random() * VERBS_DATABASE.length)];
-        const val = isEsToEn ? randomVerb.english : randomVerb.spanishPrimary;
-
-        if (!options.some(opt => opt.value === val)) {
-          options.push({ value: val, label: val });
-        }
-      }
-
-      return options.sort(() => 0.5 - Math.random());
-    }
-
-    function finishQuiz() {
-      stopTimer();
-      document.getElementById('quizSection').classList.add('hidden');
-      document.getElementById('resultSection').classList.remove('hidden');
-
-      const total = quizQuestions.length;
-      const accuracy = Math.round((correctAnswersCount / total) * 100);
-
-      document.getElementById('resAccuracy').textContent = `${accuracy}%`;
-      document.getElementById('resCorrect').textContent = correctAnswersCount;
-      document.getElementById('resWrong').textContent = wrongAnswersCount;
-      
-      const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-      const secs = (secondsElapsed % 60).toString().padStart(2, '0');
-      document.getElementById('resTime').textContent = `${mins}:${secs}`;
-
-      // Retry failed button visibility
-      const retryBtn = document.getElementById('retryWrongBtn');
-      if (failedQuestionsList.length > 0) {
-        document.getElementById('failedCountBadge').textContent = failedQuestionsList.length;
-        retryBtn.classList.remove('hidden');
-      } else {
-        retryBtn.classList.add('hidden');
-      }
-
-      // Review List Breakdown
-      const reviewList = document.getElementById('reviewList');
-      reviewList.innerHTML = userResults.map((res, i) => `
-        <div class="p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between text-sm gap-2 ${res.isCorrect ? 'bg-emerald-950/30 border-emerald-800/40 text-emerald-200' : 'bg-rose-950/30 border-rose-800/40 text-rose-200'}">
-          <div>
-            <span class="font-bold text-white uppercase tracking-wider">${i + 1}. Pregunta: ${res.prompt}</span>
-            <span class="text-xs text-slate-400 block sm:inline sm:ml-2">Esperado: <strong class="text-indigo-300 font-bold">${res.expected}</strong></span>
-          </div>
-          <div class="text-xs font-semibold px-3 py-1 rounded-full border ${res.isCorrect ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-300' : 'bg-rose-500/20 border-rose-500/30 text-rose-300'}">
-            Tu respuesta: ${res.userAnswer || '(en blanco)'}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function restartQuiz() {
-      document.getElementById('resultSection').classList.add('hidden');
-      startQuiz();
-    }
-
-    function goHome() {
-      stopTimer();
-      document.getElementById('resultSection').classList.add('hidden');
-      document.getElementById('quizSection').classList.add('hidden');
-      document.getElementById('topStats').classList.add('hidden');
-      document.getElementById('setupSection').classList.remove('hidden');
     }
   </script>
 </body>
